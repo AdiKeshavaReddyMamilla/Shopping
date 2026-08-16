@@ -1,0 +1,19 @@
+# ============================================================
+#  YOUR SHOPPING LIST  —  specific things you WANT to buy
+# ============================================================
+# Add the exact items you're hunting for. Any deal whose title matches one
+# of these gets a ⭐ star, jumps to the top of the Deals tab in a pinned
+# "⭐ Your List" strip, and sends you a PRIORITY Telegram alert.
+#
+# Be specific for best results (e.g. "airpods pro 2" beats "airpods").
+# Edit on GitHub from your iPad anytime.
+
+items:
+  - airpods pro
+  - ps5
+  - nintendo switch
+  - air fryer
+  - nike pegasus
+  - kindle paperwhite
+  - robot vacuum
+  # add your own below...

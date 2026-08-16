@@ -1,8 +1,8 @@
-"""Orchestrator: fetch -> filter -> notify -> build. Run by the GitHub Action.
+"""Orchestrator: fetch -> annotate -> coupons -> notify -> build.
 
 Usage:
-    python scripts/main.py           # full run (fetch, build, alert)
-    python scripts/main.py --no-notify   # skip Telegram (useful for testing)
+    python scripts/main.py              # full run
+    python scripts/main.py --no-notify  # skip Telegram (testing)
 """
 from __future__ import annotations
 
@@ -11,7 +11,8 @@ import json
 
 from common import load_yaml, SEEN_FILE, STATE
 from fetch import fetch_all
-from filter import filter_deals, split_new
+from filter import annotate_deals, alert_candidates, split_new
+from coupons_live import build_live_coupons
 from build import build_site
 from notify import notify_new
 
@@ -27,9 +28,7 @@ def _load_seen() -> set[str]:
 
 def _save_seen(ids: set[str]) -> None:
     STATE.mkdir(parents=True, exist_ok=True)
-    # Cap memory so the file doesn't grow forever.
-    trimmed = list(ids)[-5000:]
-    SEEN_FILE.write_text(json.dumps(trimmed, indent=0))
+    SEEN_FILE.write_text(json.dumps(list(ids)[-8000:], indent=0))
 
 
 def main(argv: list[str]) -> int:
@@ -38,27 +37,34 @@ def main(argv: list[str]) -> int:
     watchlist = load_yaml("watchlist.yaml")
     sources = load_yaml("sources.yaml")
     coupons = load_yaml("coupons.yaml")
+    stores = load_yaml("stores.yaml")
+    wishlist = load_yaml("wishlist.yaml")
 
     print("== Fetching sources ==")
-    raw_deals = fetch_all(sources)
+    raw = fetch_all(sources)
 
-    print("== Filtering against watchlist ==")
-    deals = filter_deals(raw_deals, watchlist)
-    print(f"  {len(deals)} deals match your watchlist.")
+    print("== Annotating & ranking deals ==")
+    deals = annotate_deals(raw, watchlist, wishlist)
+    print(f"  {len(deals)} deals kept · {sum(1 for d in deals if d['categories'])} match watchlist · {sum(1 for d in deals if d['wishlist'])} on your list")
 
+    print("== Extracting live coupon codes ==")
+    live_coupons = build_live_coupons(raw)
+
+    print("== Notifying ==")
     seen = _load_seen()
-    new_deals, all_ids = split_new(deals, seen)
-    print(f"  {len(new_deals)} are new since last run.")
-
+    candidates = alert_candidates(deals, watchlist)
+    new_alerts, all_ids = split_new(candidates, seen)
+    print(f"  {len(new_alerts)} new alert-worthy deals since last run.")
     if do_notify:
-        print("== Notifying ==")
-        notify_new(new_deals)
+        notify_new(new_alerts)
     else:
-        print("== Notifying == (skipped: --no-notify)")
+        print("  (skipped: --no-notify)")
 
     print("== Building dashboard ==")
-    build_site(deals, coupons, watchlist)
+    build_site(deals, live_coupons, coupons, stores, watchlist)
 
+    # remember everything shown so we don't re-alert
+    _, all_ids = split_new(deals, all_ids)
     _save_seen(all_ids)
     print("Done.")
     return 0

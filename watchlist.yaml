@@ -1,27 +1,19 @@
 # ============================================================
-#  YOUR WATCHLIST  —  edit this file to control what you see
+#  YOUR WATCHLIST  —  what gets HIGHLIGHTED and ALERTED
 # ============================================================
-# This is the ONLY file you normally need to touch.
-# You can edit it right here on GitHub (pencil icon) from your iPad.
+# NOTE (v2): the dashboard now shows ALL deals it finds. This watchlist no
+# longer hides anything — instead, deals matching these keywords get tagged
+# with a category, boosted to the top, and are the ones that trigger a
+# Telegram alert. So keep it broad; you won't miss other deals on the site.
 #
-# HOW IT WORKS
-#   - Every deal pulled from the feeds is checked against the keywords below.
-#   - If a deal's title/description contains ANY keyword in a category,
-#     it gets tagged with that category and shown on your dashboard.
-#   - You only get a Telegram alert for deals that match a category here.
-#   - "min_discount_percent" hides weak deals (set to 0 to see everything).
-#
-# TIPS
-#   - Keywords are case-insensitive and match anywhere in the text.
-#   - Add/remove categories freely. Add/remove keywords freely.
-#   - Keep keywords specific enough to avoid noise (e.g. "running shoes"
-#     is better than just "shoes" if you get too many results).
+# Edit on GitHub from your iPad: tap the file -> pencil -> Commit.
 
-# Only show/alert deals with at least this discount. 0 = show all deals.
-min_discount_percent: 20
+# Telegram alerts only fire for matches with at least this discount.
+# (Does NOT hide anything on the website — display shows everything.)
+alert_min_discount_percent: 15
 
-# Max number of deals to keep on the dashboard (newest/best first).
-max_deals: 120
+# Max deals kept on the dashboard (newest/best first).
+max_deals: 400
 
 categories:
   shoes:
@@ -31,20 +23,39 @@ categories:
     - running shoes
     - new balance
     - hoka
+    - jordan
+    - boots
+    - loafers
 
-  dresses:
+  clothing:
     - dress
     - gown
     - maxi dress
-    - "women's fashion"
+    - jeans
+    - jacket
+    - hoodie
+    - t-shirt
+    - "women's"
+    - "men's"
+    - activewear
 
-  movies:
+  beauty:
+    - skincare
+    - makeup
+    - fragrance
+    - perfume
+    - sephora
+    - ulta
+    - serum
+
+  movies_media:
     - blu-ray
     - blu ray
     - 4k uhd
     - steelbook
-    - movie bundle
-    - digital movie
+    - movie
+    - vinyl
+    - books
 
   food_delivery:
     - doordash
@@ -53,22 +64,36 @@ categories:
     - ubereats
     - grubhub
     - grub hub
-    - "$ off"
     - promo code
+    - "$ off"
 
   electronics:
     - airpods
     - headphones
+    - earbuds
     - ssd
     - monitor
     - laptop
+    - tablet
     - kindle
-    - echo dot
+    - echo
+    - tv
+    - gpu
+    - ssd
 
   gaming:
     - steam
     - nintendo
+    - switch
     - playstation
     - ps5
     - xbox
     - game deal
+
+  home:
+    - vacuum
+    - air fryer
+    - mattress
+    - cookware
+    - kitchen
+    - furniture

@@ -16,20 +16,30 @@ A scheduled GitHub Action refreshes everything every few hours automatically.
 
 ```
 GitHub Action (every 4h, or press "Run workflow")
-  → pulls free public deal feeds (Slickdeals, Reddit, DealNews)
-  → filters them to YOUR watchlist (watchlist.yaml)
+  → pulls free public deal feeds (Slickdeals, Reddit, DealNews, Woot…)
+  → keeps them ALL, ranks by a smart score, tags your matches
+  → extracts fresh community coupon codes
   → rebuilds the website (docs/) and pushes it to GitHub Pages
-  → sends a Telegram alert for anything new that matches
+  → sends a Telegram alert for new matches (⭐ wishlist items first)
 ```
 
-You control what shows up by editing three files — right here on GitHub from
-your iPad (tap a file → the ✏️ pencil → Commit):
+The website has **three tabs**:
+- **🔥 Deals** — every deal found, ranked best-first, with a ⭐ *Your List*
+  strip on top, search, a sort dropdown, and category/source filters.
+- **🎟️ Coupons** — fresh community codes (dated) + your own saved codes.
+- **🏬 Stores** — a directory of 150+ retailers, each linking to its
+  **official live coupon page** so a current code is always one tap away.
+
+You control everything by editing these files — right on GitHub from your iPad
+(tap a file → the ✏️ pencil → Commit):
 
 | File | What it does |
 |------|--------------|
-| `watchlist.yaml` | Your interests + keywords + minimum discount. **The main one.** |
-| `coupons.yaml`   | Your personal list of coupon codes (shown on the Coupons tab). |
-| `sources.yaml`   | Which deal feeds to pull from (already filled in). |
+| `wishlist.yaml`  | **Your shopping list** — items you want. Matches get ⭐ + priority alerts. |
+| `watchlist.yaml` | Categories/keywords that get highlighted + alerted. |
+| `coupons.yaml`   | Your personal saved coupon codes. |
+| `stores.yaml`    | The store directory (150+ prefilled; add your favorites). |
+| `sources.yaml`   | Which deal/coupon feeds to pull from (prefilled). |
 
 ---
 
@@ -92,33 +102,38 @@ categories:
 - **No live store APIs.** Amazon, DoorDash, Uber Eats, and Grubhub don't offer
   free public deal feeds, and scraping them is fragile and against their terms.
   So deals come from public **deal communities** that re-post those bargains and
-  promo codes. You'll catch a lot — just not literally every store's live prices.
-- **Coupons are curated by you** (in `coupons.yaml`) rather than scraped, because
-  scraped coupon codes are usually dead within days. The starter list has
-  examples — replace them with real codes as you find them.
+  promo codes. The site now keeps *everything* it finds (not just your matches),
+  so it stays full — your matches just float to the top.
+- **Coupons combine three sources:** (1) auto-extracted **fresh community codes**
+  (shown with a posted date so you can judge freshness), (2) your own
+  `coupons.yaml`, and (3) the **Stores** directory, where every store links to
+  its **official live coupon page**. No free system can pre-verify a code — but
+  a current one is always one tap away on the official page.
 - **Public repo** is required for free Pages + unlimited Actions. No secrets live
-  in the code — your Telegram token stays in GitHub Secrets. The site only shows
-  public deal info.
+  in the code — your Telegram token stays in GitHub Secrets.
 
 ---
 
 ## Project layout
 
 ```
-watchlist.yaml            your interests (edit this)
-coupons.yaml              your coupon codes (edit this)
-sources.yaml              deal feeds (prefilled)
-requirements.txt          python deps
+wishlist.yaml            your shopping list (edit this)
+watchlist.yaml           categories to highlight/alert (edit this)
+coupons.yaml             your saved coupon codes (edit this)
+stores.yaml              150+ store directory (prefilled; add more)
+sources.yaml             deal/coupon feeds (prefilled)
+requirements.txt         python deps
 scripts/
-  main.py                 orchestrator (fetch → filter → notify → build)
-  fetch.py                pulls & normalizes feeds
-  filter.py               watchlist matching, ranking, de-dupe
-  build.py                generates the website
-  notify.py               Telegram alerts
-  common.py               shared helpers
-  templates/index.html.jinja   the dashboard UI
-docs/                     the generated website (served by GitHub Pages)
-state/seen.json           remembers alerted deals (no duplicate pings)
+  main.py                orchestrator (fetch → rank → coupons → notify → build)
+  fetch.py               pulls & normalizes feeds (+ images)
+  filter.py              tagging, wishlist matching, smart-score ranking
+  coupons_live.py        extracts fresh coupon codes from feeds
+  build.py               generates the website
+  notify.py              Telegram alerts (⭐ wishlist first)
+  common.py              shared helpers (price/discount parsing, etc.)
+  templates/index.html.jinja   the dashboard UI (Deals/Coupons/Stores)
+docs/                    the generated website (served by GitHub Pages)
+state/seen.json          remembers alerted deals (no duplicate pings)
 .github/workflows/update.yml   the scheduler
 ```
 

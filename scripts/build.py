@@ -7,13 +7,13 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from common import DOCS
+from common import DOCS, time_ago
 
 TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
 
 
 def _active_coupons(coupons_cfg: dict) -> list[dict]:
-    """Drop expired coupons; keep the rest in file order."""
+    """Drop expired personal coupons; keep the rest in file order."""
     today = date.today()
     out = []
     for c in coupons_cfg.get("coupons", []):
@@ -21,53 +21,85 @@ def _active_coupons(coupons_cfg: dict) -> list[dict]:
         if exp:
             try:
                 if datetime.strptime(str(exp), "%Y-%m-%d").date() < today:
-                    continue  # expired
+                    continue
             except ValueError:
-                pass  # unparseable date -> keep it, don't lose a coupon
+                pass
         out.append(c)
     return out
 
 
-def build_site(deals: list[dict], coupons_cfg: dict, watchlist: dict) -> None:
+def _dedupe_stores(stores_cfg: dict) -> list[dict]:
+    seen, out = set(), []
+    for s in stores_cfg.get("stores", []):
+        key = (s.get("name", "").lower(), s.get("domain", "").lower())
+        if key in seen or not s.get("domain"):
+            continue
+        seen.add(key)
+        out.append(s)
+    out.sort(key=lambda s: s.get("name", "").lower())
+    return out
+
+
+def build_site(
+    deals: list[dict],
+    live_coupons: list[dict],
+    coupons_cfg: dict,
+    stores_cfg: dict,
+    watchlist: dict,
+) -> None:
     DOCS.mkdir(parents=True, exist_ok=True)
 
-    coupons = _active_coupons(coupons_cfg)
+    # add human 'time ago' to deals + live coupons
+    for d in deals:
+        d["ago"] = time_ago(d.get("posted_at", ""))
+    for c in live_coupons:
+        c["ago"] = time_ago(c.get("posted_at", ""))
+
+    stores = _dedupe_stores(stores_cfg)
+    my_coupons = _active_coupons(coupons_cfg)
     categories = sorted(watchlist.get("categories", {}).keys())
+    sources = sorted({d.get("source", "") for d in deals if d.get("source")})
+    store_cats = sorted({s.get("category", "") for s in stores if s.get("category")})
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+    wishlist_deals = [d for d in deals if d.get("wishlist")]
 
     data = {
         "updated": updated,
         "deals": deals,
-        "coupons": coupons,
+        "wishlist_deals": wishlist_deals,
+        "live_coupons": live_coupons,
+        "my_coupons": my_coupons,
+        "stores": stores,
         "categories": categories,
+        "store_categories": store_cats,
+        "sources": sources,
+        "stats": {
+            "deals": len(deals),
+            "coupons": len(live_coupons) + len(my_coupons),
+            "stores": len(stores),
+            "wishlist": len(wishlist_deals),
+        },
     }
 
-    # Machine-readable data (the page fetches this; also handy for other tools).
     with open(DOCS / "data.json", "w", encoding="utf-8") as fh:
         json.dump(data, fh, indent=2, ensure_ascii=False, default=str)
 
-    # Render the dashboard. Data is embedded so the page works even when
-    # opened directly (no fetch/CORS needed), and data.json stays available.
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
         autoescape=select_autoescape(["html"]),
     )
     template = env.get_template("index.html.jinja")
-    # Escape '<' so a deal title containing '</script>' can't break the embed.
     data_embed = json.dumps(data, ensure_ascii=False, default=str).replace(
         "<", "\\u003c"
     )
-    html = template.render(
-        updated=updated,
-        deals=deals,
-        coupons=coupons,
-        categories=categories,
-        data_json=data_embed,
-    )
+    html = template.render(stats=data["stats"], updated=updated, data_json=data_embed)
     with open(DOCS / "index.html", "w", encoding="utf-8") as fh:
         fh.write(html)
 
-    # Ensure GitHub Pages serves the folder as-is (no Jekyll processing).
     (DOCS / ".nojekyll").touch()
-
-    print(f"Built dashboard: {len(deals)} deals, {len(coupons)} coupons.")
+    print(
+        f"Built dashboard: {len(deals)} deals, "
+        f"{len(live_coupons)} live coupons, {len(my_coupons)} personal, "
+        f"{len(stores)} stores, {len(wishlist_deals)} wishlist hits."
+    )

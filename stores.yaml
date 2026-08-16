@@ -1,0 +1,211 @@
+# ============================================================
+#  STORE DIRECTORY  —  browse coupons by store (150+ retailers)
+# ============================================================
+# This powers the "Stores" tab. For EVERY store the dashboard shows:
+#   • a logo (auto from the domain)
+#   • "Official site"  -> https://<domain>
+#   • "Sale page"      -> the store's own sale page (if listed below)
+#   • "All coupons ↗"  -> a live, always-current coupons page for that store
+#   • any known codes below, each with a one-tap Copy button
+#
+# You only need: name, category, domain. Optional: sale, codes.
+#   codes: [{code: SAVE10, desc: "10% off first order"}]
+#
+# WHY THIS IS RELIABLE: the "All coupons" link is generated live per store, so
+# even when a code below goes stale, current codes are always one tap away.
+
+stores:
+  # ---------------- Marketplaces & Department ----------------
+  - {name: Amazon,            category: marketplace, domain: amazon.com,        sale: "https://www.amazon.com/gp/goldbox"}
+  - {name: Walmart,           category: marketplace, domain: walmart.com,       sale: "https://www.walmart.com/shop/deals"}
+  - {name: Target,            category: marketplace, domain: target.com,        sale: "https://www.target.com/c/top-deals/-/N-4tl4t"}
+  - {name: eBay,              category: marketplace, domain: ebay.com,          sale: "https://www.ebay.com/deals"}
+  - {name: Costco,            category: marketplace, domain: costco.com,        sale: "https://www.costco.com/hot-buys.html"}
+  - {name: "Sam's Club",      category: marketplace, domain: samsclub.com}
+  - {name: Kohl's,            category: department,  domain: kohls.com,         sale: "https://www.kohls.com/sale-event/clearance.jsp", codes: [{code: DEALS30, desc: "Common Kohl's Cash / % off event code — verify on page"}]}
+  - {name: Macy's,            category: department,  domain: macys.com,         sale: "https://www.macys.com/shop/sale"}
+  - {name: Nordstrom,         category: department,  domain: nordstrom.com,     sale: "https://www.nordstrom.com/browse/sale"}
+  - {name: Nordstrom Rack,    category: department,  domain: nordstromrack.com}
+  - {name: JCPenney,          category: department,  domain: jcpenney.com,      sale: "https://www.jcpenney.com/g/sale"}
+  - {name: Bloomingdale's,    category: department,  domain: bloomingdales.com}
+  - {name: Saks Fifth Avenue, category: department,  domain: saksfifthavenue.com}
+  - {name: Nordstrom Rack,    category: department,  domain: nordstromrack.com}
+  - {name: Overstock/Bed Bath, category: department, domain: bedbathandbeyond.com}
+  - {name: QVC,               category: department,  domain: qvc.com}
+  - {name: HSN,               category: department,  domain: hsn.com}
+
+  # ---------------- Fashion & Apparel ----------------
+  - {name: Old Navy,          category: clothing,    domain: oldnavy.gap.com}
+  - {name: Gap,               category: clothing,    domain: gap.com,           sale: "https://www.gap.com/browse/category.do?cid=1127944"}
+  - {name: Banana Republic,   category: clothing,    domain: bananarepublic.gap.com}
+  - {name: H&M,               category: clothing,    domain: hm.com,            sale: "https://www2.hm.com/en_us/sale.html"}
+  - {name: Zara,              category: clothing,    domain: zara.com}
+  - {name: Uniqlo,            category: clothing,    domain: uniqlo.com}
+  - {name: J.Crew,            category: clothing,    domain: jcrew.com,         codes: [{code: SHOPNOW, desc: "Frequent 40% off sale code — verify on page"}]}
+  - {name: J.Crew Factory,    category: clothing,    domain: factory.jcrew.com}
+  - {name: American Eagle,    category: clothing,    domain: ae.com}
+  - {name: Abercrombie,       category: clothing,    domain: abercrombie.com}
+  - {name: Hollister,         category: clothing,    domain: hollisterco.com}
+  - {name: Express,           category: clothing,    domain: express.com}
+  - {name: Forever 21,        category: clothing,    domain: forever21.com}
+  - {name: ASOS,              category: clothing,    domain: asos.com,          codes: [{code: FRIEND, desc: "Common % off code family — verify on page"}]}
+  - {name: Shein,             category: clothing,    domain: shein.com}
+  - {name: Urban Outfitters,  category: clothing,    domain: urbanoutfitters.com}
+  - {name: Anthropologie,     category: clothing,    domain: anthropologie.com}
+  - {name: Lululemon,         category: clothing,    domain: lululemon.com,     sale: "https://shop.lululemon.com/c/we-made-too-much/n1lywvs-9ux9"}
+  - {name: Levi's,            category: clothing,    domain: levi.com}
+  - {name: Uniqlo,            category: clothing,    domain: uniqlo.com}
+  - {name: North Face,        category: clothing,    domain: thenorthface.com}
+  - {name: Patagonia,         category: clothing,    domain: patagonia.com}
+  - {name: Columbia,          category: clothing,    domain: columbia.com}
+  - {name: Victoria's Secret, category: clothing,    domain: victoriassecret.com}
+  - {name: Aerie,             category: clothing,    domain: ae.com}
+  - {name: Madewell,          category: clothing,    domain: madewell.com}
+  - {name: Everlane,          category: clothing,    domain: everlane.com}
+  - {name: Boohoo,            category: clothing,    domain: boohoo.com}
+
+  # ---------------- Shoes ----------------
+  - {name: Nike,              category: shoes,       domain: nike.com,          sale: "https://www.nike.com/w/sale-3yaep"}
+  - {name: Adidas,            category: shoes,       domain: adidas.com,        sale: "https://www.adidas.com/us/sale"}
+  - {name: Foot Locker,       category: shoes,       domain: footlocker.com}
+  - {name: Finish Line,       category: shoes,       domain: finishline.com}
+  - {name: New Balance,       category: shoes,       domain: newbalance.com}
+  - {name: Puma,              category: shoes,       domain: puma.com}
+  - {name: Vans,              category: shoes,       domain: vans.com}
+  - {name: Converse,          category: shoes,       domain: converse.com}
+  - {name: Crocs,             category: shoes,       domain: crocs.com}
+  - {name: DSW,               category: shoes,       domain: dsw.com}
+  - {name: Zappos,            category: shoes,       domain: zappos.com}
+  - {name: Skechers,          category: shoes,       domain: skechers.com}
+  - {name: ASICS,             category: shoes,       domain: asics.com}
+  - {name: Hoka,              category: shoes,       domain: hoka.com}
+  - {name: Allbirds,          category: shoes,       domain: allbirds.com}
+
+  # ---------------- Beauty ----------------
+  - {name: Sephora,           category: beauty,      domain: sephora.com,       sale: "https://www.sephora.com/sale"}
+  - {name: Ulta Beauty,       category: beauty,      domain: ulta.com,          sale: "https://www.ulta.com/promotion/all-deals"}
+  - {name: MAC Cosmetics,     category: beauty,      domain: maccosmetics.com}
+  - {name: The Ordinary,      category: beauty,      domain: theordinary.com}
+  - {name: Fenty Beauty,      category: beauty,      domain: fentybeauty.com}
+  - {name: Glossier,          category: beauty,      domain: glossier.com}
+  - {name: Kiehl's,           category: beauty,      domain: kiehls.com}
+  - {name: Clinique,          category: beauty,      domain: clinique.com}
+  - {name: Bath & Body Works, category: beauty,      domain: bathandbodyworks.com}
+  - {name: Sally Beauty,      category: beauty,      domain: sallybeauty.com}
+
+  # ---------------- Electronics & Tech ----------------
+  - {name: Best Buy,          category: electronics, domain: bestbuy.com,       sale: "https://www.bestbuy.com/site/misc/deal-of-the-day/pcmcat248000050016.c"}
+  - {name: Apple,             category: electronics, domain: apple.com,         sale: "https://www.apple.com/shop/refurbished"}
+  - {name: Dell,              category: electronics, domain: dell.com,          sale: "https://www.dell.com/en-us/dt/deals.htm"}
+  - {name: HP,                category: electronics, domain: hp.com}
+  - {name: Lenovo,            category: electronics, domain: lenovo.com,        codes: [{code: THINKDEALS, desc: "Frequent coupon page — verify current code"}]}
+  - {name: Samsung,           category: electronics, domain: samsung.com,       sale: "https://www.samsung.com/us/computing/galaxy-books/all-galaxy-books/?deals=1"}
+  - {name: Newegg,            category: electronics, domain: newegg.com,        sale: "https://www.newegg.com/todays-deals"}
+  - {name: Micro Center,      category: electronics, domain: microcenter.com}
+  - {name: B&H Photo,         category: electronics, domain: bhphotovideo.com,  sale: "https://www.bhphotovideo.com/c/browse/Deal-Zone/ci/23736"}
+  - {name: Crutchfield,       category: electronics, domain: crutchfield.com}
+  - {name: GameStop,          category: electronics, domain: gamestop.com}
+  - {name: Razer,             category: electronics, domain: razer.com}
+  - {name: Logitech,          category: electronics, domain: logitech.com}
+  - {name: Bose,              category: electronics, domain: bose.com}
+  - {name: Sony,              category: electronics, domain: electronics.sony.com}
+  - {name: Anker,             category: electronics, domain: anker.com}
+  - {name: Corsair,           category: electronics, domain: corsair.com}
+
+  # ---------------- Home & Furniture ----------------
+  - {name: IKEA,              category: home,        domain: ikea.com}
+  - {name: Wayfair,           category: home,        domain: wayfair.com,       sale: "https://www.wayfair.com/daily-sales"}
+  - {name: Home Depot,        category: home,        domain: homedepot.com,     sale: "https://www.homedepot.com/c/Special_Buy_of_the_Day"}
+  - {name: Lowe's,            category: home,        domain: lowes.com,         sale: "https://www.lowes.com/l/shop/deals"}
+  - {name: Bed Bath & Beyond, category: home,        domain: bedbathandbeyond.com}
+  - {name: Crate & Barrel,    category: home,        domain: crateandbarrel.com}
+  - {name: West Elm,          category: home,        domain: westelm.com}
+  - {name: Pottery Barn,      category: home,        domain: potterybarn.com}
+  - {name: Williams Sonoma,   category: home,        domain: williams-sonoma.com}
+  - {name: Overstock,         category: home,        domain: overstock.com}
+  - {name: HomeGoods,         category: home,        domain: homegoods.com}
+  - {name: Ashley Furniture,  category: home,        domain: ashleyfurniture.com}
+  - {name: Dyson,             category: home,        domain: dyson.com}
+  - {name: iRobot,            category: home,        domain: irobot.com}
+  - {name: Ninja Kitchen,     category: home,        domain: ninjakitchen.com}
+
+  # ---------------- Food Delivery & Restaurants ----------------
+  - {name: DoorDash,          category: food_delivery, domain: doordash.com,    sale: "https://www.doordash.com/promotions"}
+  - {name: Uber Eats,         category: food_delivery, domain: ubereats.com}
+  - {name: Grubhub,           category: food_delivery, domain: grubhub.com,     sale: "https://www.grubhub.com/lets-eat"}
+  - {name: Instacart,         category: food_delivery, domain: instacart.com}
+  - {name: Domino's,          category: food_delivery, domain: dominos.com,     sale: "https://www.dominos.com/en/pages/order/coupon"}
+  - {name: Pizza Hut,         category: food_delivery, domain: pizzahut.com,    sale: "https://www.pizzahut.com/deals"}
+  - {name: "Papa John's",     category: food_delivery, domain: papajohns.com,   sale: "https://www.papajohns.com/order/coupons"}
+  - {name: McDonald's,        category: food_delivery, domain: mcdonalds.com,   sale: "https://www.mcdonalds.com/us/en-us/deals.html"}
+  - {name: Starbucks,         category: food_delivery, domain: starbucks.com}
+  - {name: Chipotle,          category: food_delivery, domain: chipotle.com}
+
+  # ---------------- Groceries & Pharmacy ----------------
+  - {name: Kroger,            category: grocery,     domain: kroger.com}
+  - {name: Safeway,           category: grocery,     domain: safeway.com}
+  - {name: Whole Foods,       category: grocery,     domain: wholefoodsmarket.com}
+  - {name: Aldi,              category: grocery,     domain: aldi.us}
+  - {name: CVS,               category: pharmacy,    domain: cvs.com,           sale: "https://www.cvs.com/weeklyad/coupons-deals"}
+  - {name: Walgreens,         category: pharmacy,    domain: walgreens.com,     sale: "https://www.walgreens.com/topic/promotion/coupons.jsp"}
+  - {name: Rite Aid,          category: pharmacy,    domain: riteaid.com}
+  - {name: iHerb,             category: pharmacy,    domain: iherb.com,         codes: [{code: WELCOME, desc: "Common new-customer discount family — verify on page"}]}
+  - {name: GNC,               category: pharmacy,    domain: gnc.com}
+
+  # ---------------- Travel ----------------
+  - {name: Expedia,           category: travel,      domain: expedia.com,       sale: "https://www.expedia.com/Deals"}
+  - {name: Booking.com,       category: travel,      domain: booking.com}
+  - {name: Hotels.com,        category: travel,      domain: hotels.com}
+  - {name: Priceline,         category: travel,      domain: priceline.com}
+  - {name: Kayak,             category: travel,      domain: kayak.com}
+  - {name: Airbnb,            category: travel,      domain: airbnb.com}
+  - {name: Vrbo,              category: travel,      domain: vrbo.com}
+  - {name: Tripadvisor,       category: travel,      domain: tripadvisor.com}
+  - {name: Southwest,         category: travel,      domain: southwest.com}
+  - {name: Delta,             category: travel,      domain: delta.com}
+
+  # ---------------- Kids, Baby & Toys ----------------
+  - {name: Carter's,          category: kids,        domain: carters.com}
+  - {name: "The Children's Place", category: kids,   domain: childrensplace.com}
+  - {name: Gymboree,          category: kids,        domain: gymboree.com}
+  - {name: buybuy BABY,       category: kids,        domain: buybuybaby.com}
+  - {name: LEGO,              category: kids,        domain: lego.com,          sale: "https://www.lego.com/en-us/categories/sales-and-deals"}
+  - {name: "Build-A-Bear",    category: kids,        domain: buildabear.com}
+  - {name: Melissa & Doug,    category: kids,        domain: melissaanddoug.com}
+
+  # ---------------- Pets ----------------
+  - {name: Chewy,             category: pets,        domain: chewy.com,         codes: [{code: WELCOME, desc: "Common first-order discount — verify on page"}]}
+  - {name: Petco,             category: pets,        domain: petco.com}
+  - {name: PetSmart,          category: pets,        domain: petsmart.com}
+
+  # ---------------- Sporting Goods & Outdoors ----------------
+  - {name: "Dick's Sporting Goods", category: sports, domain: dickssportinggoods.com}
+  - {name: REI,               category: sports,      domain: rei.com,           sale: "https://www.rei.com/rei-garage"}
+  - {name: Academy Sports,    category: sports,      domain: academy.com}
+  - {name: Under Armour,      category: sports,      domain: underarmour.com,   sale: "https://www.underarmour.com/en-us/c/outlet/"}
+  - {name: Backcountry,       category: sports,      domain: backcountry.com}
+  - {name: Bass Pro Shops,    category: sports,      domain: basspro.com}
+  - {name: Cabela's,          category: sports,      domain: cabelas.com}
+
+  # ---------------- Office, Books & Media ----------------
+  - {name: Staples,           category: office,      domain: staples.com,       sale: "https://www.staples.com/deals/dailydeals/"}
+  - {name: Office Depot,      category: office,      domain: officedepot.com}
+  - {name: Barnes & Noble,    category: media,       domain: barnesandnoble.com}
+  - {name: Books-A-Million,   category: media,       domain: booksamillion.com}
+  - {name: Etsy,              category: marketplace, domain: etsy.com}
+  - {name: AliExpress,        category: marketplace, domain: aliexpress.com}
+  - {name: Temu,              category: marketplace, domain: temu.com}
+  - {name: Wish,              category: marketplace, domain: wish.com}
+
+  # ---------------- Entertainment & Subscriptions ----------------
+  - {name: Fandango,          category: entertainment, domain: fandango.com}
+  - {name: AMC Theatres,      category: entertainment, domain: amctheatres.com}
+  - {name: StubHub,           category: entertainment, domain: stubhub.com}
+  - {name: Ticketmaster,      category: entertainment, domain: ticketmaster.com}
+  - {name: Audible,           category: entertainment, domain: audible.com}
+  - {name: Xbox,              category: gaming,      domain: xbox.com,          sale: "https://www.xbox.com/en-US/games/all-games?xr=shellnav"}
+  - {name: PlayStation,       category: gaming,      domain: playstation.com,   sale: "https://store.playstation.com/en-us/category/3f772501-f6f8-49b7-abac-874a88ca4897/1"}
+  - {name: Nintendo,          category: gaming,      domain: nintendo.com,      sale: "https://www.nintendo.com/us/store/sales-and-deals/"}
+  - {name: Steam,             category: gaming,      domain: store.steampowered.com, sale: "https://store.steampowered.com/specials"}
+  - {name: Humble Bundle,     category: gaming,      domain: humblebundle.com}
+  - {name: Green Man Gaming,  category: gaming,      domain: greenmangaming.com}
