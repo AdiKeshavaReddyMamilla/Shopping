@@ -1,0 +1,74 @@
+# ============================================================
+#  YOUR WATCHLIST  —  edit this file to control what you see
+# ============================================================
+# This is the ONLY file you normally need to touch.
+# You can edit it right here on GitHub (pencil icon) from your iPad.
+#
+# HOW IT WORKS
+#   - Every deal pulled from the feeds is checked against the keywords below.
+#   - If a deal's title/description contains ANY keyword in a category,
+#     it gets tagged with that category and shown on your dashboard.
+#   - You only get a Telegram alert for deals that match a category here.
+#   - "min_discount_percent" hides weak deals (set to 0 to see everything).
+#
+# TIPS
+#   - Keywords are case-insensitive and match anywhere in the text.
+#   - Add/remove categories freely. Add/remove keywords freely.
+#   - Keep keywords specific enough to avoid noise (e.g. "running shoes"
+#     is better than just "shoes" if you get too many results).
+
+# Only show/alert deals with at least this discount. 0 = show all deals.
+min_discount_percent: 20
+
+# Max number of deals to keep on the dashboard (newest/best first).
+max_deals: 120
+
+categories:
+  shoes:
+    - nike
+    - adidas
+    - sneakers
+    - running shoes
+    - new balance
+    - hoka
+
+  dresses:
+    - dress
+    - gown
+    - maxi dress
+    - "women's fashion"
+
+  movies:
+    - blu-ray
+    - blu ray
+    - 4k uhd
+    - steelbook
+    - movie bundle
+    - digital movie
+
+  food_delivery:
+    - doordash
+    - door dash
+    - uber eats
+    - ubereats
+    - grubhub
+    - grub hub
+    - "$ off"
+    - promo code
+
+  electronics:
+    - airpods
+    - headphones
+    - ssd
+    - monitor
+    - laptop
+    - kindle
+    - echo dot
+
+  gaming:
+    - steam
+    - nintendo
+    - playstation
+    - ps5
+    - xbox
+    - game deal
