@@ -1,0 +1,59 @@
+name: Update deals & coupons
+
+on:
+  # Refresh automatically every 4 hours.
+  schedule:
+    - cron: "0 */4 * * *"
+  # "Run workflow" button in the Actions tab (on-demand refresh).
+  workflow_dispatch:
+  # Rebuild whenever you edit your watchlist / coupons / code.
+  push:
+    branches: [claude/shopping-deals-coupons-bot-sfncbm]
+    paths:
+      - "watchlist.yaml"
+      - "sources.yaml"
+      - "coupons.yaml"
+      - "scripts/**"
+      - ".github/workflows/update.yml"
+
+# Allow the workflow to commit the refreshed dashboard back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: update-deals
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build deals & send alerts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/main.py
+
+      - name: Commit refreshed dashboard
+        run: |
+          git config user.name  "deals-bot"
+          git config user.email "deals-bot@users.noreply.github.com"
+          git add docs state/seen.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: refresh deals & coupons dashboard"
+            git push
+          fi

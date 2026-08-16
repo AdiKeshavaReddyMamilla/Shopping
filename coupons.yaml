@@ -1,0 +1,47 @@
+# ============================================================
+#  COUPON CODES  —  your personal, curated coupon list
+# ============================================================
+# These show up on the "Coupons" tab of your dashboard, with a
+# one-tap "Copy" button and expiry tracking.
+#
+# WHY CURATED (not scraped)?  Coupon sites constantly change codes and
+# block scrapers, so auto-scraping breaks and serves dead codes. A list
+# YOU control stays accurate. Whenever you find a working code, add it
+# here (edit on GitHub from your iPad) and it appears on the dashboard.
+#
+# FIELDS
+#   store       (required)  Store or app name
+#   code        (required)  The coupon code  (use "AUTO" if applied at link)
+#   description (required)  What it gets you
+#   expires     (optional)  YYYY-MM-DD. Expired coupons are hidden automatically.
+#   url         (optional)  Link to the store / deal page
+#   category    (optional)  For filtering (food_delivery, shoes, etc.)
+
+coupons:
+  - store: DoorDash
+    code: WELCOME40
+    description: Example — $40 off your first order ($15+). Replace with a live code.
+    expires: 2026-12-31
+    url: https://www.doordash.com
+    category: food_delivery
+
+  - store: Uber Eats
+    code: EATS25
+    description: Example — 25% off (up to $10) for new users. Replace with a live code.
+    expires: 2026-12-31
+    url: https://www.ubereats.com
+    category: food_delivery
+
+  - store: Grubhub
+    code: SAVE12
+    description: Example — $12 off orders $25+. Replace with a live code.
+    expires: 2026-12-31
+    url: https://www.grubhub.com
+    category: food_delivery
+
+  - store: Nike
+    code: AUTO
+    description: Example — extra 20% off sale styles, applied at checkout.
+    expires: 2026-12-31
+    url: https://www.nike.com
+    category: shoes

@@ -1,0 +1,52 @@
+# ============================================================
+#  DEAL SOURCES  —  where the "best deals" come from
+# ============================================================
+# These are all FREE, PUBLIC feeds. No API keys, no scraping, no login.
+# You can add or remove feeds here. Two kinds are supported:
+#
+#   type: rss     -> a standard RSS/Atom feed URL
+#   type: reddit  -> a subreddit name (we read its public .json)
+#
+# WHY THESE?  Real stores (Amazon, DoorDash, Uber Eats, GrubHub) don't
+# offer free deal APIs. But deal communities re-post those bargains and
+# promo codes publicly, so we aggregate them here — legally and reliably.
+
+sources:
+  # ---- Slickdeals: the big community deals site ----
+  - name: Slickdeals Frontpage
+    type: rss
+    url: https://feeds.feedburner.com/SlickdealsnetFP
+
+  - name: Slickdeals Popular
+    type: rss
+    url: https://feeds.feedburner.com/SlickdealsnetForums-9
+
+  # ---- DealNews: editor-curated deals ----
+  - name: DealNews
+    type: rss
+    url: https://www.dealnews.com/rss.xml
+
+  # ---- Reddit deal communities (public JSON) ----
+  - name: r/deals
+    type: reddit
+    subreddit: deals
+
+  - name: r/frugalmalefashion
+    type: reddit
+    subreddit: frugalmalefashion
+
+  - name: r/frugalfemalefashion
+    type: reddit
+    subreddit: frugalfemalefashion
+
+  - name: r/GameDeals
+    type: reddit
+    subreddit: GameDeals
+
+  - name: r/buildapcsales
+    type: reddit
+    subreddit: buildapcsales
+
+  - name: r/coupons
+    type: reddit
+    subreddit: coupons
