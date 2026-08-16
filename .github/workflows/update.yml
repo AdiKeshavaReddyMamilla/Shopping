@@ -11,8 +11,10 @@ on:
     branches: [claude/shopping-deals-coupons-bot-sfncbm]
     paths:
       - "watchlist.yaml"
+      - "wishlist.yaml"
       - "sources.yaml"
       - "coupons.yaml"
+      - "stores.yaml"
       - "scripts/**"
       - ".github/workflows/update.yml"
 

@@ -1,52 +1,104 @@
 # ============================================================
-#  DEAL SOURCES  —  where the "best deals" come from
+#  DEAL & COUPON SOURCES  —  all FREE, PUBLIC feeds (no keys)
 # ============================================================
-# These are all FREE, PUBLIC feeds. No API keys, no scraping, no login.
-# You can add or remove feeds here. Two kinds are supported:
+# type: rss     -> a standard RSS/Atom feed URL
+# type: reddit  -> a subreddit (we read its public .json)
+# role: deals   -> feeds the "Best Deals" tab
+# role: coupons -> also scanned for promo CODES (Coupons tab, "Fresh codes")
 #
-#   type: rss     -> a standard RSS/Atom feed URL
-#   type: reddit  -> a subreddit name (we read its public .json)
-#
-# WHY THESE?  Real stores (Amazon, DoorDash, Uber Eats, GrubHub) don't
-# offer free deal APIs. But deal communities re-post those bargains and
-# promo codes publicly, so we aggregate them here — legally and reliably.
+# Add/remove freely. More sources = more data.
 
 sources:
-  # ---- Slickdeals: the big community deals site ----
+  # ---------- Slickdeals ----------
   - name: Slickdeals Frontpage
     type: rss
+    role: deals
     url: https://feeds.feedburner.com/SlickdealsnetFP
 
   - name: Slickdeals Popular
     type: rss
+    role: deals
     url: https://feeds.feedburner.com/SlickdealsnetForums-9
 
-  # ---- DealNews: editor-curated deals ----
+  # ---------- Editor-curated deal sites ----------
   - name: DealNews
     type: rss
+    role: deals
     url: https://www.dealnews.com/rss.xml
 
-  # ---- Reddit deal communities (public JSON) ----
+  - name: Woot
+    type: rss
+    role: deals
+    url: https://api.woot.com/2/feed.rss
+
+  - name: BensBargains
+    type: rss
+    role: deals
+    url: https://bensbargains.com/rss/
+
+  - name: TechBargains
+    type: rss
+    role: deals
+    url: https://www.techbargains.com/rss.xml
+
+  # ---------- Reddit deal communities ----------
   - name: r/deals
     type: reddit
+    role: coupons
     subreddit: deals
+
+  - name: r/Frugal
+    type: reddit
+    role: deals
+    subreddit: Frugal
 
   - name: r/frugalmalefashion
     type: reddit
+    role: deals
     subreddit: frugalmalefashion
 
   - name: r/frugalfemalefashion
     type: reddit
+    role: deals
     subreddit: frugalfemalefashion
 
   - name: r/GameDeals
     type: reddit
+    role: deals
     subreddit: GameDeals
 
   - name: r/buildapcsales
     type: reddit
+    role: deals
     subreddit: buildapcsales
 
+  - name: r/SneakerDeals
+    type: reddit
+    role: deals
+    subreddit: SneakerDeals
+
+  - name: r/AmazonDeals
+    type: reddit
+    role: deals
+    subreddit: AmazonDeals
+
+  - name: r/MUAOnSale
+    type: reddit
+    role: deals
+    subreddit: MUAOnSale
+
+  - name: r/DealsReddit
+    type: reddit
+    role: deals
+    subreddit: DealsReddit
+
+  # ---------- Coupon-focused (scanned for codes) ----------
   - name: r/coupons
     type: reddit
+    role: coupons
     subreddit: coupons
+
+  - name: r/CouponsToShare
+    type: reddit
+    role: coupons
+    subreddit: coupons4free

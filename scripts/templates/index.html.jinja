@@ -6,237 +6,335 @@
 <title>My Deals & Coupons Hub</title>
 <style>
   :root{
-    --bg:#0f1220; --panel:#181c2e; --panel-2:#1f2438; --line:#2b3150;
-    --text:#e9ecf6; --muted:#9aa3c0; --accent:#6c8cff; --accent-2:#42d6a4;
-    --chip:#232842; --danger:#ff6b6b; --radius:16px;
+    --bg:#0d1020; --panel:#161a2e; --panel-2:#1e2338; --line:#2a3050;
+    --text:#eef1fb; --muted:#9aa3c4; --accent:#6c8cff; --accent-2:#3ddc97;
+    --gold:#ffcf5c; --chip:#20263f; --radius:16px; --shadow:0 6px 20px rgba(0,0,0,.25);
   }
   @media (prefers-color-scheme: light){
     :root{
-      --bg:#f4f6fb; --panel:#ffffff; --panel-2:#f0f3fa; --line:#e2e7f2;
-      --text:#1a1f36; --muted:#5b6480; --accent:#3b5bff; --accent-2:#0aa678;
-      --chip:#eef1fb;
+      --bg:#eef1f8; --panel:#ffffff; --panel-2:#f3f6fd; --line:#e1e6f2;
+      --text:#161b32; --muted:#5b6480; --accent:#3b5bff;
+      --accent-2:#0aa878; --gold:#c98a00; --chip:#eef1fb; --shadow:0 6px 18px rgba(30,50,120,.08);
     }
   }
   *{box-sizing:border-box}
   html,body{margin:0}
-  body{
-    background:var(--bg); color:var(--text);
-    font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; padding-bottom:40px;
-  }
-  a{color:inherit}
-  .wrap{max-width:920px; margin:0 auto; padding:16px}
-  header{
-    position:sticky; top:0; z-index:5; backdrop-filter:blur(10px);
-    background:color-mix(in srgb, var(--bg) 82%, transparent);
-    border-bottom:1px solid var(--line);
-  }
-  .head-inner{max-width:920px; margin:0 auto; padding:14px 16px}
-  h1{margin:0; font-size:22px; letter-spacing:.2px}
-  h1 .spark{color:var(--accent-2)}
-  .updated{color:var(--muted); font-size:12.5px; margin-top:2px}
+  body{background:var(--bg); color:var(--text);
+    font:15.5px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; padding-bottom:60px}
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 16px}
+
+  header{position:sticky; top:0; z-index:20; backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--bg) 84%,transparent); border-bottom:1px solid var(--line)}
+  .top{max-width:1080px; margin:0 auto; padding:12px 16px}
+  .brand{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  h1{margin:0; font-size:21px; letter-spacing:.2px}
+  .brand .sub{color:var(--muted); font-size:12.5px}
+  .stats{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:6px 12px; font-size:13px}
+  .stat b{font-size:15px}
+  .stat .lbl{color:var(--muted); margin-left:5px}
   .tabs{display:flex; gap:8px; margin-top:12px}
-  .tab{
-    flex:1; text-align:center; padding:10px 12px; border-radius:12px;
-    background:var(--panel); border:1px solid var(--line); color:var(--muted);
-    cursor:pointer; font-weight:600; user-select:none;
-  }
+  .tab{flex:1; text-align:center; padding:10px; border-radius:12px; cursor:pointer;
+    background:var(--panel); border:1px solid var(--line); color:var(--muted); font-weight:650; user-select:none}
   .tab.active{color:var(--text); border-color:var(--accent); background:var(--panel-2)}
-  .tab .count{font-size:12px; color:var(--muted); font-weight:500}
-  .controls{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 4px}
-  .search{
-    flex:1 1 220px; min-width:0; padding:11px 14px; border-radius:12px;
-    background:var(--panel); border:1px solid var(--line); color:var(--text);
-    font-size:15px; outline:none;
-  }
+
+  .controls{display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 6px}
+  .search{flex:1 1 240px; min-width:0; padding:11px 14px; border-radius:12px;
+    background:var(--panel); border:1px solid var(--line); color:var(--text); font-size:15px; outline:none}
   .search:focus{border-color:var(--accent)}
-  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px}
-  .chip{
-    padding:7px 13px; border-radius:999px; background:var(--chip);
-    border:1px solid var(--line); color:var(--muted); font-size:13.5px;
-    cursor:pointer; user-select:none; text-transform:capitalize;
-  }
+  select{padding:11px 12px; border-radius:12px; background:var(--panel); color:var(--text);
+    border:1px solid var(--line); font-size:14px; outline:none}
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 4px}
+  .chip{padding:6px 13px; border-radius:999px; background:var(--chip); border:1px solid var(--line);
+    color:var(--muted); font-size:13px; cursor:pointer; user-select:none; text-transform:capitalize}
   .chip.active{color:#fff; background:var(--accent); border-color:var(--accent)}
-  .grid{display:grid; gap:12px}
-  .card{
-    background:var(--panel); border:1px solid var(--line);
-    border-radius:var(--radius); padding:15px 16px; text-decoration:none;
-    display:block; transition:transform .06s ease, border-color .12s ease;
-  }
-  .card:active{transform:scale(.99)}
-  .card:hover{border-color:var(--accent)}
-  .card .title{font-weight:600; font-size:15.5px; margin:0 0 8px}
-  .meta{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
-  .badge{
-    font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px;
-    background:color-mix(in srgb, var(--accent-2) 20%, transparent);
-    color:var(--accent-2);
-  }
-  .badge.price{background:color-mix(in srgb, var(--accent) 18%, transparent); color:var(--accent)}
-  .src{font-size:12.5px; color:var(--muted)}
-  .cats{display:flex; gap:6px; flex-wrap:wrap; margin-top:9px}
-  .cat{font-size:11.5px; color:var(--muted); background:var(--panel-2);
-       border:1px solid var(--line); padding:2px 8px; border-radius:999px; text-transform:capitalize}
-  /* coupons */
-  .coupon{
-    background:var(--panel); border:1px solid var(--line);
-    border-radius:var(--radius); padding:15px 16px;
-    display:flex; gap:12px; align-items:center; justify-content:space-between;
-  }
-  .coupon .info{min-width:0}
-  .coupon .store{font-weight:700; font-size:15.5px}
-  .coupon .desc{color:var(--muted); font-size:13.5px; margin-top:3px}
-  .coupon .exp{color:var(--muted); font-size:12px; margin-top:5px}
-  .code-btn{
-    flex:0 0 auto; display:flex; flex-direction:column; align-items:stretch; gap:6px;
-    text-align:center;
-  }
-  .code{
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:700;
-    letter-spacing:.5px; padding:9px 14px; border-radius:10px;
-    background:var(--panel-2); border:1px dashed var(--accent); color:var(--text);
-    cursor:pointer; font-size:14px; white-space:nowrap;
-  }
+
+  .section-title{font-size:14px; color:var(--muted); margin:20px 2px 10px; font-weight:650;
+    letter-spacing:.3px; text-transform:uppercase}
+  .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .grid.wide{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+
+  /* deal card */
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; display:flex; flex-direction:column; transition:transform .06s, border-color .12s}
+  .card:hover{border-color:var(--accent); transform:translateY(-2px)}
+  .thumb{aspect-ratio:16/10; background:linear-gradient(135deg,var(--panel-2),var(--chip));
+    position:relative; overflow:hidden}
+  .thumb img{width:100%; height:100%; object-fit:cover; display:block}
+  .thumb .noimg{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:34px; opacity:.5}
+  .badge{position:absolute; top:8px; left:8px; background:var(--accent-2); color:#04150e;
+    font-weight:800; font-size:12px; padding:3px 9px; border-radius:999px}
+  .star{position:absolute; top:8px; right:8px; background:var(--gold); color:#3a2b00;
+    font-weight:800; font-size:12px; padding:3px 8px; border-radius:999px}
+  .body{padding:12px 13px; display:flex; flex-direction:column; gap:8px; flex:1}
+  .title{font-weight:600; font-size:14.5px; line-height:1.35; margin:0;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+  .meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:auto}
+  .price{font-weight:800; color:var(--accent)}
+  .fav{width:16px; height:16px; border-radius:4px; vertical-align:middle}
+  .src{font-size:12px; color:var(--muted)}
+  .tags{display:flex; gap:5px; flex-wrap:wrap}
+  .tag{font-size:11px; color:var(--muted); background:var(--panel-2); border:1px solid var(--line);
+    padding:1px 8px; border-radius:999px; text-transform:capitalize}
+
+  /* coupon + store */
+  .row{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px; display:flex; gap:12px; align-items:flex-start; justify-content:space-between}
+  .row .info{min-width:0}
+  .row .name{font-weight:700; display:flex; align-items:center; gap:8px}
+  .row .desc{color:var(--muted); font-size:13px; margin-top:4px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .row .meta2{color:var(--muted); font-size:12px; margin-top:6px}
+  .codes{display:flex; flex-direction:column; gap:6px; align-items:stretch; flex:0 0 auto}
+  .code{font-family:ui-monospace,Menlo,monospace; font-weight:700; letter-spacing:.5px;
+    padding:8px 12px; border-radius:10px; background:var(--panel-2); border:1px dashed var(--accent);
+    color:var(--text); cursor:pointer; font-size:13px; white-space:nowrap; text-align:center}
   .code.copied{border-style:solid; background:var(--accent); color:#fff}
-  .visit{font-size:12px; color:var(--accent); text-decoration:none}
+  .link{font-size:12px; color:var(--accent); text-align:center}
+  .store-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:13px; display:flex; flex-direction:column; gap:9px}
+  .store-head{display:flex; align-items:center; gap:10px}
+  .store-head img{width:30px; height:30px; border-radius:8px; background:#fff}
+  .store-head .nm{font-weight:700; font-size:15px}
+  .store-head .ct{font-size:11.5px; color:var(--muted); text-transform:capitalize}
+  .store-links{display:flex; gap:7px; flex-wrap:wrap}
+  .pill{font-size:12px; padding:6px 11px; border-radius:999px; border:1px solid var(--line);
+    background:var(--panel-2); color:var(--text)}
+  .pill.primary{background:var(--accent); color:#fff; border-color:var(--accent)}
+
   .empty{color:var(--muted); text-align:center; padding:48px 12px}
   .hidden{display:none !important}
-  footer{color:var(--muted); font-size:12px; text-align:center; margin-top:28px; line-height:1.7}
+  footer{color:var(--muted); font-size:12px; text-align:center; margin-top:34px; line-height:1.7}
 </style>
 </head>
 <body>
 <header>
-  <div class="head-inner">
-    <h1>🛍️ My Deals <span class="spark">&amp;</span> Coupons</h1>
-    <div class="updated">Updated {{ updated }} · refreshes automatically</div>
+  <div class="top">
+    <div class="brand"><h1>🛍️ My Deals &amp; Coupons</h1>
+      <span class="sub">one place for everything · updated {{ updated }}</span></div>
+    <div class="stats">
+      <div class="stat"><b>{{ stats.deals }}</b><span class="lbl">deals</span></div>
+      <div class="stat"><b>{{ stats.coupons }}</b><span class="lbl">coupons</span></div>
+      <div class="stat"><b>{{ stats.stores }}</b><span class="lbl">stores</span></div>
+      <div class="stat"><b>{{ stats.wishlist }}</b><span class="lbl">⭐ on your list</span></div>
+    </div>
     <div class="tabs">
-      <div class="tab active" data-tab="deals">Best Deals <span class="count">({{ deals|length }})</span></div>
-      <div class="tab" data-tab="coupons">Coupons <span class="count">({{ coupons|length }})</span></div>
+      <div class="tab active" data-tab="deals">🔥 Deals</div>
+      <div class="tab" data-tab="coupons">🎟️ Coupons</div>
+      <div class="tab" data-tab="stores">🏬 Stores</div>
     </div>
   </div>
 </header>
 
 <div class="wrap">
   <div class="controls">
-    <input id="search" class="search" type="search" placeholder="Search deals & coupons…" autocomplete="off">
+    <input id="search" class="search" type="search" placeholder="Search…" autocomplete="off">
+    <select id="sort">
+      <option value="best">Best deals</option>
+      <option value="discount">Biggest discount</option>
+      <option value="new">Newest</option>
+      <option value="plow">Price: low → high</option>
+      <option value="phigh">Price: high → low</option>
+    </select>
+    <select id="source"><option value="all">All sources</option></select>
   </div>
   <div id="chips" class="chips"></div>
 
   <section id="view-deals">
+    <div id="wish-wrap" class="hidden">
+      <div class="section-title">⭐ Your List</div>
+      <div id="wishlist" class="grid"></div>
+    </div>
+    <div id="deals-title" class="section-title">All deals</div>
     <div id="deals" class="grid"></div>
-    <div id="deals-empty" class="empty hidden">No deals match. Try a different search or category.</div>
+    <div id="deals-empty" class="empty hidden">No deals match. Try another search or category.</div>
   </section>
 
   <section id="view-coupons" class="hidden">
-    <div id="coupons" class="grid"></div>
-    <div id="coupons-empty" class="empty hidden">No coupons match your search.</div>
+    <div class="section-title">🆕 Fresh community codes <span style="text-transform:none;font-weight:400">(dated · verify on the store page)</span></div>
+    <div id="live-coupons" class="grid wide"></div>
+    <div id="live-empty" class="empty hidden">No fresh codes right now — check the Stores tab for official coupon pages.</div>
+    <div class="section-title">⭐ Your saved codes</div>
+    <div id="my-coupons" class="grid wide"></div>
+  </section>
+
+  <section id="view-stores" class="hidden">
+    <div id="stores" class="grid wide"></div>
+    <div id="stores-empty" class="empty hidden">No stores match your search.</div>
   </section>
 
   <footer>
-    Deals aggregated from free public feeds (Slickdeals, Reddit, DealNews) and filtered to your watchlist.<br>
-    Coupons are your own curated list. Edit <code>watchlist.yaml</code> / <code>coupons.yaml</code> to change what appears here.
+    Deals aggregated from free public feeds (Slickdeals, Reddit, DealNews, Woot…) and ranked by a smart score.<br>
+    Coupons combine live community codes, your saved list, and 150+ stores' official coupon pages.<br>
+    Edit <code>watchlist.yaml</code>, <code>wishlist.yaml</code>, <code>coupons.yaml</code> or <code>stores.yaml</code> to customize.
   </footer>
 </div>
 
 <script id="data" type="application/json">{{ data_json | safe }}</script>
 <script>
 (function(){
-  var DATA = JSON.parse(document.getElementById("data").textContent);
-  var state = { tab:"deals", q:"", cat:"all" };
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var S = { tab:"deals", q:"", cat:"all", source:"all", sort:"best" };
+  var el=function(id){return document.getElementById(id);};
+  var esc=function(s){var d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML;};
+  var money=function(p){return "$"+Number(p).toFixed(2).replace(/\.00$/,"");};
+  var fav=function(domain){return "https://www.google.com/s2/favicons?domain="+encodeURIComponent(domain)+"&sz=64";};
+  var rmn=function(domain){return "https://www.retailmenot.com/view/"+encodeURIComponent(domain);};
 
-  var el = function(id){ return document.getElementById(id); };
-  var esc = function(s){ var d=document.createElement("div"); d.textContent=s==null?"":String(s); return d.innerHTML; };
+  // populate source dropdown
+  (D.sources||[]).forEach(function(s){
+    var o=document.createElement("option"); o.value=s; o.textContent=s; el("source").appendChild(o);
+  });
 
-  function fmtPrice(p){ return "$" + Number(p).toFixed(2).replace(/\.00$/,""); }
+  function matchQ(t){ return !S.q || String(t).toLowerCase().indexOf(S.q)!==-1; }
 
-  function renderChips(){
-    var chips = ["all"].concat(DATA.categories || []);
-    el("chips").innerHTML = chips.map(function(c){
-      var active = c === state.cat ? " active" : "";
-      var label = c === "all" ? "All" : c.replace(/_/g," ");
-      return '<span class="chip'+active+'" data-cat="'+esc(c)+'">'+esc(label)+'</span>';
-    }).join("");
+  function sortDeals(list){
+    var by={
+      best:function(a,b){return b.score-a.score;},
+      discount:function(a,b){return (b.discount||0)-(a.discount||0);},
+      new:function(a,b){return String(b.posted_at).localeCompare(String(a.posted_at));},
+      plow:function(a,b){return (a.price==null?1e9:a.price)-(b.price==null?1e9:b.price);},
+      phigh:function(a,b){return (b.price==null?-1:b.price)-(a.price==null?-1:a.price);}
+    };
+    return list.slice().sort(by[S.sort]||by.best);
   }
 
-  function matchQ(text){
-    if(!state.q) return true;
-    return String(text).toLowerCase().indexOf(state.q) !== -1;
+  function dealCard(d){
+    var img = d.image
+      ? '<img loading="lazy" src="'+esc(d.image)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+        +'<div class="noimg" style="display:none">🛍️</div>'
+      : '<div class="noimg">🛍️</div>';
+    var badge = d.discount ? '<div class="badge">'+d.discount+'% OFF</div>' : '';
+    var star = (d.wishlist&&d.wishlist.length) ? '<div class="star">⭐ LIST</div>' : '';
+    var price = d.price!=null ? '<span class="price">'+money(d.price)+'</span>' : '';
+    var favimg = d.store ? '' : '';
+    var tags = (d.categories||[]).slice(0,3).map(function(c){
+      return '<span class="tag">'+esc(c.replace(/_/g,' '))+'</span>';}).join('');
+    var ago = d.ago ? ' · '+esc(d.ago) : '';
+    return '<a class="card" href="'+esc(d.url)+'" target="_blank" rel="noopener">'
+      +'<div class="thumb">'+img+badge+star+'</div>'
+      +'<div class="body"><p class="title">'+esc(d.title)+'</p>'
+      +'<div class="tags">'+tags+'</div>'
+      +'<div class="meta">'+price+'<span class="src">'+esc(d.source)+ago+'</span></div>'
+      +'</div></a>';
   }
 
   function renderDeals(){
-    var list = (DATA.deals || []).filter(function(d){
-      var inCat = state.cat === "all" || (d.categories||[]).indexOf(state.cat) !== -1;
-      return inCat && matchQ((d.title||"") + " " + (d.summary||"") + " " + (d.source||""));
+    var list=(D.deals||[]).filter(function(d){
+      var inCat=S.cat==="all"||(d.categories||[]).indexOf(S.cat)!==-1;
+      var inSrc=S.source==="all"||d.source===S.source;
+      return inCat&&inSrc&&matchQ((d.title||"")+" "+(d.summary||"")+" "+(d.store||""));
     });
-    el("deals").innerHTML = list.map(function(d){
-      var badges = "";
-      if(d.discount) badges += '<span class="badge">'+d.discount+'% off</span>';
-      if(d.price!=null) badges += '<span class="badge price">'+fmtPrice(d.price)+'</span>';
-      var cats = (d.categories||[]).map(function(c){
-        return '<span class="cat">'+esc(c.replace(/_/g," "))+'</span>'; }).join("");
-      return '<a class="card" href="'+esc(d.url)+'" target="_blank" rel="noopener">'
-        + '<div class="title">'+esc(d.title)+'</div>'
-        + '<div class="meta">'+badges+'<span class="src">'+esc(d.source)+'</span></div>'
-        + (cats ? '<div class="cats">'+cats+'</div>' : '')
-        + '</a>';
-    }).join("");
-    el("deals-empty").classList.toggle("hidden", list.length>0);
+    el("deals").innerHTML=sortDeals(list).map(dealCard).join("");
+    el("deals-empty").classList.toggle("hidden",list.length>0);
+
+    var wl=(D.wishlist_deals||[]);
+    el("wish-wrap").classList.toggle("hidden", !(S.cat==="all"&&S.source==="all"&&!S.q&&wl.length));
+    if(!el("wish-wrap").classList.contains("hidden")) el("wishlist").innerHTML=sortDeals(wl).map(dealCard).join("");
   }
 
+  function liveCouponRow(c){
+    var codes=(c.codes||[]).map(function(code){
+      return '<button class="code" data-code="'+esc(code)+'">'+esc(code)+'</button>';}).join("");
+    var link = c.store ? '<a class="link" href="'+esc("https://"+guessDomain(c.store))+'" target="_blank" rel="noopener">official page ↗</a>' : '';
+    return '<div class="row"><div class="info">'
+      +'<div class="name">'+esc(c.store||"Coupon")+'</div>'
+      +'<div class="desc">'+esc(c.title)+'</div>'
+      +'<div class="meta2">'+esc(c.source)+(c.ago?' · '+esc(c.ago):'')+'</div></div>'
+      +'<div class="codes">'+codes+link+'</div></div>';
+  }
+  function myCouponRow(c){
+    var code=(c.code&&c.code!=="AUTO")
+      ? '<button class="code" data-code="'+esc(c.code)+'">'+esc(c.code)+'</button>'
+      : '<span class="code" style="cursor:default;border-style:solid">Auto-applied</span>';
+    var link=c.url?'<a class="link" href="'+esc(c.url)+'" target="_blank" rel="noopener">visit store ↗</a>':'';
+    var exp=c.expires?'<div class="meta2">Expires '+esc(c.expires)+'</div>':'';
+    return '<div class="row"><div class="info"><div class="name">'+esc(c.store)+'</div>'
+      +'<div class="desc">'+esc(c.description)+'</div>'+exp+'</div>'
+      +'<div class="codes">'+code+link+'</div></div>';
+  }
   function renderCoupons(){
-    var list = (DATA.coupons || []).filter(function(c){
-      var inCat = state.cat === "all" || c.category === state.cat;
-      return inCat && matchQ((c.store||"")+" "+(c.description||"")+" "+(c.code||""));
+    var live=(D.live_coupons||[]).filter(function(c){return matchQ((c.store||"")+" "+(c.title||"")+" "+(c.codes||[]).join(" "));});
+    el("live-coupons").innerHTML=live.map(liveCouponRow).join("");
+    el("live-empty").classList.toggle("hidden",live.length>0);
+    var mine=(D.my_coupons||[]).filter(function(c){return matchQ((c.store||"")+" "+(c.description||"")+" "+(c.code||""));});
+    el("my-coupons").innerHTML=mine.map(myCouponRow).join("");
+  }
+
+  // small helper: map a store name back to a domain via the directory
+  var STORE_DOMAINS={};
+  (D.stores||[]).forEach(function(s){ STORE_DOMAINS[(s.name||"").toLowerCase()]=s.domain; });
+  function guessDomain(name){ return STORE_DOMAINS[(name||"").toLowerCase()] || (name.toLowerCase().replace(/[^a-z0-9]/g,"")+".com"); }
+
+  function storeCard(s){
+    var codes=(s.codes||[]).map(function(c){
+      return '<button class="code" data-code="'+esc(c.code)+'" title="'+esc(c.desc||"")+'">'+esc(c.code)+'</button>';}).join("");
+    var sale=s.sale?'<a class="pill" href="'+esc(s.sale)+'" target="_blank" rel="noopener">Sale page</a>':'';
+    return '<div class="store-card"><div class="store-head">'
+      +'<img loading="lazy" src="'+esc(fav(s.domain))+'" onerror="this.style.visibility=\'hidden\'">'
+      +'<div><div class="nm">'+esc(s.name)+'</div><div class="ct">'+esc((s.category||"").replace(/_/g," "))+'</div></div></div>'
+      +(codes?'<div class="codes" style="flex-direction:row;flex-wrap:wrap">'+codes+'</div>':'')
+      +'<div class="store-links">'
+      +'<a class="pill primary" href="'+esc(rmn(s.domain))+'" target="_blank" rel="noopener">All coupons ↗</a>'
+      +sale
+      +'<a class="pill" href="'+esc("https://"+s.domain)+'" target="_blank" rel="noopener">Official site</a>'
+      +'</div></div>';
+  }
+  function renderStores(){
+    var list=(D.stores||[]).filter(function(s){
+      var inCat=S.cat==="all"||s.category===S.cat;
+      return inCat&&matchQ((s.name||"")+" "+(s.category||"")+" "+(s.domain||""));
     });
-    el("coupons").innerHTML = list.map(function(c, i){
-      var exp = c.expires ? '<div class="exp">Expires '+esc(c.expires)+'</div>' : '';
-      var visit = c.url ? '<a class="visit" href="'+esc(c.url)+'" target="_blank" rel="noopener">Visit store ↗</a>' : '';
-      var code = (c.code && c.code !== "AUTO")
-        ? '<button class="code" data-code="'+esc(c.code)+'">'+esc(c.code)+'</button>'
-        : '<span class="code" style="cursor:default;border-style:solid">Auto-applied</span>';
-      return '<div class="coupon">'
-        + '<div class="info"><div class="store">'+esc(c.store)+'</div>'
-        + '<div class="desc">'+esc(c.description)+'</div>'+exp+'</div>'
-        + '<div class="code-btn">'+code+visit+'</div>'
-        + '</div>';
-    }).join("");
-    el("coupons-empty").classList.toggle("hidden", list.length>0);
+    el("stores").innerHTML=list.map(storeCard).join("");
+    el("stores-empty").classList.toggle("hidden",list.length>0);
+  }
+
+  function renderChips(){
+    var cats = S.tab==="stores" ? (D.store_categories||[]) : (D.categories||[]);
+    var all=["all"].concat(cats);
+    el("chips").innerHTML=all.map(function(c){
+      var a=c===S.cat?" active":""; var l=c==="all"?"All":c.replace(/_/g," ");
+      return '<span class="chip'+a+'" data-cat="'+esc(c)+'">'+esc(l)+'</span>';}).join("");
   }
 
   function render(){
+    el("view-deals").classList.toggle("hidden",S.tab!=="deals");
+    el("view-coupons").classList.toggle("hidden",S.tab!=="coupons");
+    el("view-stores").classList.toggle("hidden",S.tab!=="stores");
+    // sort/source controls only make sense for deals
+    var dealsOnly = S.tab==="deals";
+    el("sort").style.display=dealsOnly?"":"none";
+    el("source").style.display=dealsOnly?"":"none";
     renderChips();
-    el("view-deals").classList.toggle("hidden", state.tab!=="deals");
-    el("view-coupons").classList.toggle("hidden", state.tab!=="coupons");
-    if(state.tab==="deals") renderDeals(); else renderCoupons();
+    if(S.tab==="deals") renderDeals();
+    else if(S.tab==="coupons") renderCoupons();
+    else renderStores();
   }
 
-  // events
   document.querySelectorAll(".tab").forEach(function(t){
-    t.addEventListener("click", function(){
+    t.addEventListener("click",function(){
       document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
-      t.classList.add("active");
-      state.tab = t.getAttribute("data-tab");
-      state.cat = "all";
-      render();
+      t.classList.add("active"); S.tab=t.getAttribute("data-tab"); S.cat="all"; S.q=""; el("search").value=""; render();
     });
   });
-  el("chips").addEventListener("click", function(e){
-    var chip = e.target.closest(".chip"); if(!chip) return;
-    state.cat = chip.getAttribute("data-cat");
-    render();
+  el("chips").addEventListener("click",function(e){
+    var c=e.target.closest(".chip"); if(!c)return; S.cat=c.getAttribute("data-cat"); render();
   });
-  el("search").addEventListener("input", function(e){
-    state.q = e.target.value.trim().toLowerCase();
-    if(state.tab==="deals") renderDeals(); else renderCoupons();
-  });
-  document.addEventListener("click", function(e){
-    var btn = e.target.closest(".code[data-code]"); if(!btn) return;
-    var code = btn.getAttribute("data-code");
-    var done = function(){ btn.classList.add("copied"); var o=btn.textContent;
-      btn.textContent="Copied!"; setTimeout(function(){btn.textContent=o;btn.classList.remove("copied");},1200); };
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(code).then(done, done);
-    } else { done(); }
+  el("search").addEventListener("input",function(e){ S.q=e.target.value.trim().toLowerCase();
+    if(S.tab==="deals")renderDeals(); else if(S.tab==="coupons")renderCoupons(); else renderStores(); });
+  el("sort").addEventListener("change",function(e){ S.sort=e.target.value; renderDeals(); });
+  el("source").addEventListener("change",function(e){ S.source=e.target.value; renderDeals(); });
+  document.addEventListener("click",function(e){
+    var b=e.target.closest(".code[data-code]"); if(!b)return;
+    e.preventDefault();
+    var code=b.getAttribute("data-code");
+    var done=function(){var o=b.textContent;b.classList.add("copied");b.textContent="Copied!";
+      setTimeout(function(){b.textContent=o;b.classList.remove("copied");},1200);};
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done,done); else done();
   });
 
   render();
