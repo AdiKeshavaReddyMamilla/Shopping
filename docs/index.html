@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Deals & Coupons Hub</title>
+<style>
+  :root{
+    --bg:#0f1220; --panel:#181c2e; --panel-2:#1f2438; --line:#2b3150;
+    --text:#e9ecf6; --muted:#9aa3c0; --accent:#6c8cff; --accent-2:#42d6a4;
+    --chip:#232842; --danger:#ff6b6b; --radius:16px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f4f6fb; --panel:#ffffff; --panel-2:#f0f3fa; --line:#e2e7f2;
+      --text:#1a1f36; --muted:#5b6480; --accent:#3b5bff; --accent-2:#0aa678;
+      --chip:#eef1fb;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; padding-bottom:40px;
+  }
+  a{color:inherit}
+  .wrap{max-width:920px; margin:0 auto; padding:16px}
+  header{
+    position:sticky; top:0; z-index:5; backdrop-filter:blur(10px);
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .head-inner{max-width:920px; margin:0 auto; padding:14px 16px}
+  h1{margin:0; font-size:22px; letter-spacing:.2px}
+  h1 .spark{color:var(--accent-2)}
+  .updated{color:var(--muted); font-size:12.5px; margin-top:2px}
+  .tabs{display:flex; gap:8px; margin-top:12px}
+  .tab{
+    flex:1; text-align:center; padding:10px 12px; border-radius:12px;
+    background:var(--panel); border:1px solid var(--line); color:var(--muted);
+    cursor:pointer; font-weight:600; user-select:none;
+  }
+  .tab.active{color:var(--text); border-color:var(--accent); background:var(--panel-2)}
+  .tab .count{font-size:12px; color:var(--muted); font-weight:500}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 4px}
+  .search{
+    flex:1 1 220px; min-width:0; padding:11px 14px; border-radius:12px;
+    background:var(--panel); border:1px solid var(--line); color:var(--text);
+    font-size:15px; outline:none;
+  }
+  .search:focus{border-color:var(--accent)}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px}
+  .chip{
+    padding:7px 13px; border-radius:999px; background:var(--chip);
+    border:1px solid var(--line); color:var(--muted); font-size:13.5px;
+    cursor:pointer; user-select:none; text-transform:capitalize;
+  }
+  .chip.active{color:#fff; background:var(--accent); border-color:var(--accent)}
+  .grid{display:grid; gap:12px}
+  .card{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:15px 16px; text-decoration:none;
+    display:block; transition:transform .06s ease, border-color .12s ease;
+  }
+  .card:active{transform:scale(.99)}
+  .card:hover{border-color:var(--accent)}
+  .card .title{font-weight:600; font-size:15.5px; margin:0 0 8px}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+  .badge{
+    font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px;
+    background:color-mix(in srgb, var(--accent-2) 20%, transparent);
+    color:var(--accent-2);
+  }
+  .badge.price{background:color-mix(in srgb, var(--accent) 18%, transparent); color:var(--accent)}
+  .src{font-size:12.5px; color:var(--muted)}
+  .cats{display:flex; gap:6px; flex-wrap:wrap; margin-top:9px}
+  .cat{font-size:11.5px; color:var(--muted); background:var(--panel-2);
+       border:1px solid var(--line); padding:2px 8px; border-radius:999px; text-transform:capitalize}
+  /* coupons */
+  .coupon{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:15px 16px;
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
+  }
+  .coupon .info{min-width:0}
+  .coupon .store{font-weight:700; font-size:15.5px}
+  .coupon .desc{color:var(--muted); font-size:13.5px; margin-top:3px}
+  .coupon .exp{color:var(--muted); font-size:12px; margin-top:5px}
+  .code-btn{
+    flex:0 0 auto; display:flex; flex-direction:column; align-items:stretch; gap:6px;
+    text-align:center;
+  }
+  .code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:700;
+    letter-spacing:.5px; padding:9px 14px; border-radius:10px;
+    background:var(--panel-2); border:1px dashed var(--accent); color:var(--text);
+    cursor:pointer; font-size:14px; white-space:nowrap;
+  }
+  .code.copied{border-style:solid; background:var(--accent); color:#fff}
+  .visit{font-size:12px; color:var(--accent); text-decoration:none}
+  .empty{color:var(--muted); text-align:center; padding:48px 12px}
+  .hidden{display:none !important}
+  footer{color:var(--muted); font-size:12px; text-align:center; margin-top:28px; line-height:1.7}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <h1>🛍️ My Deals <span class="spark">&amp;</span> Coupons</h1>
+    <div class="updated">Updated 2026-08-16 06:39 UTC · refreshes automatically</div>
+    <div class="tabs">
+      <div class="tab active" data-tab="deals">Best Deals <span class="count">(10)</span></div>
+      <div class="tab" data-tab="coupons">Coupons <span class="count">(4)</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <input id="search" class="search" type="search" placeholder="Search deals & coupons…" autocomplete="off">
+  </div>
+  <div id="chips" class="chips"></div>
+
+  <section id="view-deals">
+    <div id="deals" class="grid"></div>
+    <div id="deals-empty" class="empty hidden">No deals match. Try a different search or category.</div>
+  </section>
+
+  <section id="view-coupons" class="hidden">
+    <div id="coupons" class="grid"></div>
+    <div id="coupons-empty" class="empty hidden">No coupons match your search.</div>
+  </section>
+
+  <footer>
+    Deals aggregated from free public feeds (Slickdeals, Reddit, DealNews) and filtered to your watchlist.<br>
+    Coupons are your own curated list. Edit <code>watchlist.yaml</code> / <code>coupons.yaml</code> to change what appears here.
+  </footer>
+</div>
+
+<script id="data" type="application/json">{"updated": "2026-08-16 06:39 UTC", "deals": [{"id": "9b5f1d6421816fa4", "title": "HeyDude Shoes - Extra 40% Off Select Sale Items $11.99", "url": "https://slickdeals.net/f/19883994-heydude-shoes-extra-40-off-select-sale-items-11-99?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 11.99, "discount": 40, "posted_at": "2026-08-16T05:36:04+00:00", "summary": "HeyDude Shoes has extra 40% off select sale items [heydude.com] when you apply promo code: *SALE*. Free shipping on $50+ Example deals after extra 40% off:[list][*]Wave Slide Women (Pale Lilac or...", "categories": ["food_delivery"], "score": 75.5}, {"id": "6f0d71d3064ae21b", "title": "Samsung - 32\" Odyssey G51F QHD 180Hz 1ms AMD FreeSync Gaming Monitor with HDR10 (DisplayPort, HDMI) - Black $179.99", "url": "https://slickdeals.net/f/19884036-samsung-32-odyssey-g51f-qhd-180hz-1ms-amd-freesync-gaming-monitor-with-hdr10-displayport-hdmi-black-179-99?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 179.99, "discount": null, "posted_at": "2026-08-16T06:01:08+00:00", "summary": "Samsung’s 32” Odyssey G5 G51F Gaming Monitor boasts incredibly detailed, pin-sharp images with QHD resolution (2560x1440). HDR10 provides brighter highlights, improved contrast and color accuracy,...", "categories": ["electronics"], "score": 35.7}, {"id": "5e3b0ba772b61f4c", "title": "Dragons: Dawn of New Riders (Nintendo Switch) $13 + Free Shipping w/ Prime or on orders over $35", "url": "https://slickdeals.net/f/19884000-dragons-dawn-of-new-riders-nintendo-switch-13-free-shipping-w-prime-or-on-orders-over-35?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 13.0, "discount": null, "posted_at": "2026-08-16T05:37:47+00:00", "summary": "Amazon [amazon.com] has *Dragons: Dawn of New Riders* (Nintendo Switch) for *$13*. *Shipping is free* with Prime or on $35+", "categories": ["gaming"], "score": 35.5}, {"id": "99e3d9db9f2cda55", "title": "Skytech Azure Gaming PC Desktop INTEL Core i7 14700F MC NVIDIA GeForce RTX 5070 1TB Gen4 NVMe SSD 32GB DDR5 RAM, AIO Liquid Cooling Windows 11 (Software Offer with Purchase) $1599", "url": "https://slickdeals.net/f/19883991-skytech-azure-gaming-pc-desktop-intel-core-i7-14700f-mc-nvidia-geforce-rtx-5070-1tb-gen4-nvme-ssd-32gb-ddr5-ram-aio-liquid-cooling-windows-11-software-offer-with-purchase-1599?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 1599.0, "discount": null, "posted_at": "2026-08-16T05:35:54+00:00", "summary": "Skytech Azure Gaming PC Desktop INTEL Core i7 14700F MC NVIDIA GeForce RTX 5070 1TB Gen4 NVMe SSD 32GB DDR5 RAM, AIO Liquid Cooling Windows 11 (Software Offer with Purchase) 4.5 out of 5 stars...", "categories": ["electronics"], "score": 35.5}, {"id": "02e6b9c330ffc674", "title": "Prime Members: (2 Pack) KOOPER Solar Flood Lights, 210 LED Motion Sensor Outdoor Lights, 3 Heads 300° Wide Angle, IP65 $15.99", "url": "https://slickdeals.net/f/19883955-prime-members-2-pack-kooper-solar-flood-lights-210-led-motion-sensor-outdoor-lights-3-heads-300-wide-angle-ip65-15-99?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 15.99, "discount": null, "posted_at": "2026-08-16T05:19:39+00:00", "summary": "Prime + eCoupon at checkout: 5JVLES03 Note: Promo codes are typically for one-time use and don't always apply seamlessly. If you run into this issue, refresh the page, re-enter the code, or...", "categories": ["food_delivery"], "score": 35.3}, {"id": "9ce65eea7585821c", "title": "$49.99: EPOS H6PRO Xbox Edition Headphones | Wired Open Acoustic Gaming Headset at Woot!", "url": "https://slickdeals.net/f/19883952-49-99-epos-h6pro-xbox-edition-headphones-wired-open-acoustic-gaming-headset-at-woot?utm_source=rss&utm_content=&utm_medium=RSS2", "source": "Slickdeals Popular", "price": 49.99, "discount": null, "posted_at": "2026-08-16T05:18:19+00:00", "summary": "Woot! has EPOS H6PRO Xbox Edition Headphones | Wired Open Acoustic Gaming Headset| These Gaming Headphones Include Cables for PC, Mac, PS5™, PS4™, Series X, Xbox One, and Nintendo Switch™ for $49.99....", "categories": ["electronics", "gaming"], "score": 35.3}, {"id": "43fc428c40ddc386", "title": "Avidlove Push Up Underwire Lace Lingerie Dress w/ Thong (Various) $6", "url": "https://slickdeals.net/f/19882926-avidlove-push-up-underwire-lace-lingerie-dress-w-thong-6-free-shipping-w-prime-or-orders-35?utm_source=rss&utm_content=fp&utm_medium=RSS2", "source": "Slickdeals Frontpage", "price": 6.0, "discount": null, "posted_at": "2026-08-16T04:15:04+00:00", "summary": "Avidlove via Amazon [amazon.com] has Avidlove Push Up Underwire Lace Lingerie Dress w/ Thong on sale for *$5.99* w/ code *YB4C3QBN* at checkout. Shipping is free w/ Prime or orders $35+", "categories": ["dresses"], "score": 34.8}, {"id": "0b644b02b794c59f", "title": "Best Buy Open Box: 70\" Pioneer Class 4K 60Hz Smart Roku TV (2025) from $222 + Free Pickup", "url": "https://slickdeals.net/f/19882989-pioneer-70-class-led-4k-uhd-smart-roku-tv-open-box-good-232-99?utm_source=rss&utm_content=fp&utm_medium=RSS2", "source": "Slickdeals Frontpage", "price": 222.0, "discount": null, "posted_at": "2026-08-16T04:01:09+00:00", "summary": "*Pioneer - 70\" Class LED 4K UHD Smart Roku TV - Open Box - Good​* • Model: PN70‑R851‑26U • Screen Size: 70\" • Resolution: 4K UHD (2160p) • Display Type: LED • Backlight: Direct‑Lit LED •...", "categories": ["movies"], "score": 34.7}, {"id": "8b04c3baa607adc2", "title": "TOPOINT Blackout Bluetooth Headphone Eye Sleep Mask $11.50", "url": "https://slickdeals.net/f/19866666-topoint-sleep-mask-headphones-bluetooth-wireless-5-4-breathable-cotton-eye-mask-11-50?utm_source=rss&utm_content=fp&utm_medium=RSS2", "source": "Slickdeals Frontpage", "price": 11.5, "discount": null, "posted_at": "2026-08-16T02:41:16+00:00", "summary": "TOPOINT Sleep Mask Headphones Bluetooth Wireless 5.4, Breathable Cotton Eye Mask for Sleeping Side Sleepers Travel Music Headsets with Microphone Handsfree Men Women coupon code *E5S3IMH8* drop it...", "categories": ["electronics"], "score": 34.0}, {"id": "d2eb4d16870d9afe", "title": "12-Month Nintendo Switch Online Family Membership (Digital Code) $31.50", "url": "https://slickdeals.net/f/19879140-31-49-nintendo-switch-online-family-membership-12-month-digital-code-at-newegg?utm_source=rss&utm_content=fp&utm_medium=RSS2", "source": "Slickdeals Frontpage", "price": 31.5, "discount": null, "posted_at": "2026-08-16T02:25:35+00:00", "summary": "Newegg.com has Nintendo Switch Online Family Membership 12 Month [Digital Code] for $31.49 w/ Promo Code EPF5535 ...", "categories": ["food_delivery", "gaming"], "score": 33.9}], "coupons": [{"store": "DoorDash", "code": "WELCOME40", "description": "Example — $40 off your first order ($15+). Replace with a live code.", "expires": "2026-12-31", "url": "https://www.doordash.com", "category": "food_delivery"}, {"store": "Uber Eats", "code": "EATS25", "description": "Example — 25% off (up to $10) for new users. Replace with a live code.", "expires": "2026-12-31", "url": "https://www.ubereats.com", "category": "food_delivery"}, {"store": "Grubhub", "code": "SAVE12", "description": "Example — $12 off orders $25+. Replace with a live code.", "expires": "2026-12-31", "url": "https://www.grubhub.com", "category": "food_delivery"}, {"store": "Nike", "code": "AUTO", "description": "Example — extra 20% off sale styles, applied at checkout.", "expires": "2026-12-31", "url": "https://www.nike.com", "category": "shoes"}], "categories": ["dresses", "electronics", "food_delivery", "gaming", "movies", "shoes"]}</script>
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  var state = { tab:"deals", q:"", cat:"all" };
+
+  var el = function(id){ return document.getElementById(id); };
+  var esc = function(s){ var d=document.createElement("div"); d.textContent=s==null?"":String(s); return d.innerHTML; };
+
+  function fmtPrice(p){ return "$" + Number(p).toFixed(2).replace(/\.00$/,""); }
+
+  function renderChips(){
+    var chips = ["all"].concat(DATA.categories || []);
+    el("chips").innerHTML = chips.map(function(c){
+      var active = c === state.cat ? " active" : "";
+      var label = c === "all" ? "All" : c.replace(/_/g," ");
+      return '<span class="chip'+active+'" data-cat="'+esc(c)+'">'+esc(label)+'</span>';
+    }).join("");
+  }
+
+  function matchQ(text){
+    if(!state.q) return true;
+    return String(text).toLowerCase().indexOf(state.q) !== -1;
+  }
+
+  function renderDeals(){
+    var list = (DATA.deals || []).filter(function(d){
+      var inCat = state.cat === "all" || (d.categories||[]).indexOf(state.cat) !== -1;
+      return inCat && matchQ((d.title||"") + " " + (d.summary||"") + " " + (d.source||""));
+    });
+    el("deals").innerHTML = list.map(function(d){
+      var badges = "";
+      if(d.discount) badges += '<span class="badge">'+d.discount+'% off</span>';
+      if(d.price!=null) badges += '<span class="badge price">'+fmtPrice(d.price)+'</span>';
+      var cats = (d.categories||[]).map(function(c){
+        return '<span class="cat">'+esc(c.replace(/_/g," "))+'</span>'; }).join("");
+      return '<a class="card" href="'+esc(d.url)+'" target="_blank" rel="noopener">'
+        + '<div class="title">'+esc(d.title)+'</div>'
+        + '<div class="meta">'+badges+'<span class="src">'+esc(d.source)+'</span></div>'
+        + (cats ? '<div class="cats">'+cats+'</div>' : '')
+        + '</a>';
+    }).join("");
+    el("deals-empty").classList.toggle("hidden", list.length>0);
+  }
+
+  function renderCoupons(){
+    var list = (DATA.coupons || []).filter(function(c){
+      var inCat = state.cat === "all" || c.category === state.cat;
+      return inCat && matchQ((c.store||"")+" "+(c.description||"")+" "+(c.code||""));
+    });
+    el("coupons").innerHTML = list.map(function(c, i){
+      var exp = c.expires ? '<div class="exp">Expires '+esc(c.expires)+'</div>' : '';
+      var visit = c.url ? '<a class="visit" href="'+esc(c.url)+'" target="_blank" rel="noopener">Visit store ↗</a>' : '';
+      var code = (c.code && c.code !== "AUTO")
+        ? '<button class="code" data-code="'+esc(c.code)+'">'+esc(c.code)+'</button>'
+        : '<span class="code" style="cursor:default;border-style:solid">Auto-applied</span>';
+      return '<div class="coupon">'
+        + '<div class="info"><div class="store">'+esc(c.store)+'</div>'
+        + '<div class="desc">'+esc(c.description)+'</div>'+exp+'</div>'
+        + '<div class="code-btn">'+code+visit+'</div>'
+        + '</div>';
+    }).join("");
+    el("coupons-empty").classList.toggle("hidden", list.length>0);
+  }
+
+  function render(){
+    renderChips();
+    el("view-deals").classList.toggle("hidden", state.tab!=="deals");
+    el("view-coupons").classList.toggle("hidden", state.tab!=="coupons");
+    if(state.tab==="deals") renderDeals(); else renderCoupons();
+  }
+
+  // events
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+      t.classList.add("active");
+      state.tab = t.getAttribute("data-tab");
+      state.cat = "all";
+      render();
+    });
+  });
+  el("chips").addEventListener("click", function(e){
+    var chip = e.target.closest(".chip"); if(!chip) return;
+    state.cat = chip.getAttribute("data-cat");
+    render();
+  });
+  el("search").addEventListener("input", function(e){
+    state.q = e.target.value.trim().toLowerCase();
+    if(state.tab==="deals") renderDeals(); else renderCoupons();
+  });
+  document.addEventListener("click", function(e){
+    var btn = e.target.closest(".code[data-code]"); if(!btn) return;
+    var code = btn.getAttribute("data-code");
+    var done = function(){ btn.classList.add("copied"); var o=btn.textContent;
+      btn.textContent="Copied!"; setTimeout(function(){btn.textContent=o;btn.classList.remove("copied");},1200); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code).then(done, done);
+    } else { done(); }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
